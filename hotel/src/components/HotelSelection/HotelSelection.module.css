@@ -1,0 +1,63 @@
+.box {
+  display: flex;
+  max-width: 1050px;
+  width: 100%;
+  margin: 0 auto;
+  gap: 24px;
+}
+
+.bar {
+  max-width: 360px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.content {
+  width: 100%;
+}
+
+.titleForeve {
+  color: #424242;
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.barContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.sorts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.infoHotel {
+  display: flex;
+  justify-content: space-between;
+}
+
+.geo {
+  color: #424242;
+  font-weight: 500;
+  font-size: 32px;
+}
+.date {
+  color: #41522e;
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.hotels_item {
+  padding: 16px 16px 16px 0;
+}

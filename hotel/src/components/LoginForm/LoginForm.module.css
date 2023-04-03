@@ -1,24 +1,28 @@
 .box {
-    background-color: #fff;
-    padding: 32px;
-    border-radius: 16px;
+  background-color: #fff;
+  padding: 32px;
+  border-radius: 16px;
 }
 
 .content {
-    width: 345px;
+  width: 345px;
 }
 
 .title {
-    font-family: 'Roboto';
-    font-weight: 500;
-    color: #424242;
-    text-align: center;
+  font-family: "Roboto";
+  font-weight: 500;
+  color: #424242;
+  text-align: center;
 }
 
 .inputs {
-    margin-top: 32px;
-    margin-bottom: 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.wrapperInput {
+  position: relative;
 }
