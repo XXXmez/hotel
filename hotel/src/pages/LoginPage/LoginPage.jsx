@@ -1,12 +1,14 @@
 import React from "react";
+import BackgroundLoginPage from "../../components/BackgroundLoginPage/BackgroundLoginPage";
+import LoginForm from "../../components/LoginForm/LoginForm";
 
 import s from "./LoginPage.module.css";
 
 const LoginPage = () => {
   return (
-    <div className={s.box}>
-      <div></div>
-    </div>
+    <BackgroundLoginPage>
+      <LoginForm />
+    </BackgroundLoginPage>
   );
 };
 
