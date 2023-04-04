@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useRef } from "react";
 import { ArrowToLeft } from "../../assets/SvgRet";
 import HotelInfo from "../HotelInfo/HotelInfo";
 import HouseCircle from "../HouseCircle/HouseCircle";
@@ -15,10 +17,25 @@ const HotelSelection = () => {
   const [inputLocation, setInputLocation] = useState("Москва");
   const [inputDate, setInputDate] = useState("");
   const [inputCountDay, setInputCountDay] = useState("1");
+  const [heightList, setHeightList] = useState("0");
+  const refContainer = useRef();
 
   const hanblerSortClick = () => {
     console.log(inputLocation, inputDate, inputCountDay);
   };
+
+  useEffect(() => {
+    const date = new Date();
+    const dateYear = date.getFullYear();
+    const dateMonth = (date.getMonth() + 1).toString().padStart(2, "0");
+    const dateDay = date.getDate().toString().padStart(2, "0");
+    const fullDate = `${dateYear}-${dateMonth}-${dateDay}`;
+    setInputDate(fullDate);
+
+    setHeightList(
+      refContainer.current.offsetHeight - 32 * 2 - 38 - 28 * 2 - 149 - (19 + 20)
+    );
+  }, []);
 
   return (
     <div className={s.box}>
@@ -59,7 +76,7 @@ const HotelSelection = () => {
           </div>
         </WhiteBox>
       </div>
-      <div className={s.content}>
+      <div className={s.content} ref={refContainer}>
         <WhiteBox style={{ height: "100%" }}>
           <div className={s.container}>
             <div className={s.infoHotel}>
@@ -79,7 +96,18 @@ const HotelSelection = () => {
               <p className={s.hotelsCountForev}>
                 Добавлено в Избранное: 3 отеля
               </p>
-              <ul className={s.hotels_list}>
+              <ul
+                className={s.hotels_list}
+                style={{ height: `${heightList}px` }}
+              >
+                <ItemHotel />
+                <ItemHotel />
+                <ItemHotel />
+                <ItemHotel />
+                <ItemHotel />
+                <ItemHotel />
+                <ItemHotel />
+                <ItemHotel />
                 <ItemHotel />
                 <ItemHotel />
               </ul>

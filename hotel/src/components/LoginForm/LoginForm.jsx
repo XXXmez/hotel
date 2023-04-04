@@ -7,7 +7,7 @@ import Input from "../UI/Input/Input";
 
 import s from "./LoginForm.module.css";
 
-const LoginForm = ({ setIsAuth }) => {
+const LoginForm = () => {
   const [inputLogin, setInputLogin] = useState("");
   const [inputPassword, setInputPassword] = useState("");
   const [errorCheckingLogin, setErrorCheckingLogin] = useState(false);
@@ -28,7 +28,6 @@ const LoginForm = ({ setIsAuth }) => {
     setErrorCheckingPassword(true);
     if (emailChecking() && passwordChecking()) {
       console.log("Запрос");
-      setIsAuth(true);
 
       setErrorCheckingLogin(false);
       setErrorCheckingPassword(false);

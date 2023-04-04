@@ -4,10 +4,10 @@ import LoginForm from "../../components/LoginForm/LoginForm";
 
 import s from "./LoginPage.module.css";
 
-const LoginPage = ({ setIsAuth }) => {
+const LoginPage = () => {
   return (
     <BackgroundLoginPage>
-      <LoginForm setIsAuth={setIsAuth} />
+      <LoginForm />
     </BackgroundLoginPage>
   );
 };

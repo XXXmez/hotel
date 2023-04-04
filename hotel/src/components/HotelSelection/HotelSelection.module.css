@@ -72,4 +72,5 @@
 
 .hotels_list {
   padding-right: 12px;
+  overflow-y: scroll;
 }
