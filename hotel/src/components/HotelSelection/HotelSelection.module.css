@@ -4,6 +4,8 @@
   width: 100%;
   margin: 0 auto;
   gap: 24px;
+  height: calc(100vh - 93px);
+  padding-bottom: 30px;
 }
 
 .bar {
@@ -12,6 +14,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  flex-shrink: 0;
 }
 
 .content {
@@ -40,6 +43,8 @@
   display: flex;
   flex-direction: column;
   gap: 28px;
+  max-width: 600px;
+  width: 100%;
 }
 
 .infoHotel {
@@ -51,6 +56,9 @@
   color: #424242;
   font-weight: 500;
   font-size: 32px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 .date {
   color: #41522e;
@@ -58,6 +66,10 @@
   font-size: 24px;
 }
 
-.hotels_item {
-  padding: 16px 16px 16px 0;
+.hotelsCountForev {
+  margin-bottom: 20px;
+}
+
+.hotels_list {
+  padding-right: 12px;
 }

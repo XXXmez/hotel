@@ -1,0 +1,56 @@
+.info {
+  width: 100%;
+  display: flex;
+}
+
+.leftSide {
+}
+.city {
+  font-weight: 300;
+  font-size: 17px;
+  color: #424242;
+  line-height: 22px;
+}
+.rentalTime {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #878787;
+  line-height: 22px;
+  margin-bottom: 5px;
+}
+.trait {
+  width: 9px;
+  height: 1px;
+  background-color: #c4c4c4;
+  border-radius: 2px;
+}
+
+.rightSide {
+  margin-left: auto;
+  /* width: 140px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.flexEnd {
+  display: flex;
+  justify-content: flex-end;
+}
+.price {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.price > span {
+  color: #878787;
+  font-weight: 300;
+  font-size: 11px;
+}
+.price > p {
+  color: #424242;
+  font-weight: 400;
+  font-size: 17px;
+}

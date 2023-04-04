@@ -1,0 +1,15 @@
+.btn {
+  fill: white;
+  transition: 0.3s;
+  cursor: pointer;
+  user-select: none;
+  display: inline-flex;
+  border: none;
+  background-color: transparent;
+}
+.btn:hover {
+  fill: #ebebeb;
+}
+.btn:active {
+  fill: #e55858;
+}
