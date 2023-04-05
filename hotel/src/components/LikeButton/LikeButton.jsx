@@ -2,10 +2,10 @@ import React from "react";
 import { Heart } from "../../assets/SvgRet";
 import s from "./LikeButton.module.css";
 
-const LikeButton = () => {
+const LikeButton = ({ like, ...props }) => {
   return (
-    <button className={s.btn}>
-      <Heart />
+    <button {...props} className={s.btn}>
+      <Heart like={like} />
     </button>
   );
 };

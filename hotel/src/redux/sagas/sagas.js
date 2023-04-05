@@ -1,3 +1,6 @@
+import { all } from "redux-saga/effects";
+import { watchHotelsAsync } from "./hotels";
+
 export function* rootSaga() {
-  console.log("saga");
+  yield all([watchHotelsAsync()]);
 }

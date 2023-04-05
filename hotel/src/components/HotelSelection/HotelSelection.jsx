@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { ArrowToLeft } from "../../assets/SvgRet";
-import HotelInfo from "../HotelInfo/HotelInfo";
 import ItemHotel from "../ItemHotel/ItemHotel";
 import SliderRooms from "../SliderRooms/SliderRooms";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +11,13 @@ import WhiteBox from "../WhiteBox/WhiteBox";
 
 import s from "./HotelSelection.module.css";
 import { SET_HOTELS } from "../../redux/sagas/types";
+import {
+  setCity,
+  setResidenceTime,
+  setSelectDate,
+} from "../../redux/slice/settingSlice";
+import { addDaysToDate, formateDate } from "../../functions";
+import FavoritesBox from "../FavoritesBox/FavoritesBox";
 
 const HotelSelection = () => {
   const date = new Date();
@@ -23,14 +29,26 @@ const HotelSelection = () => {
   const [inputLocation, setInputLocation] = useState("Москва");
   const [inputDate, setInputDate] = useState(fullDate);
   const [inputCountDay, setInputCountDay] = useState("1");
+
   const [heightList, setHeightList] = useState("0");
 
   const refContainer = useRef();
 
   const dispacth = useDispatch();
 
+  const { data, isError, error } = useSelector((state) => state.hotels);
+  const favoritesData = useSelector((state) => state.favorites);
+  const { city } = useSelector((state) => state.settings);
+
   const hanblerSortClick = () => {
-    console.log(inputLocation, inputDate, inputCountDay);
+    const endDate = addDaysToDate(inputDate, inputCountDay);
+    dispacth({
+      type: SET_HOTELS,
+      search: { inputLocation, inputDate, endDate },
+    });
+    dispacth(setSelectDate(inputDate));
+    dispacth(setResidenceTime(Number(inputCountDay)));
+    dispacth(setCity(inputLocation));
   };
 
   useEffect(() => {
@@ -40,9 +58,10 @@ const HotelSelection = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Start: ", inputLocation, inputDate, inputCountDay);
-    dispacth({ type: SET_HOTELS });
+    hanblerSortClick();
   }, []);
+
+  const currentStrDate = formateDate(inputDate);
 
   return (
     <div className={s.box}>
@@ -65,23 +84,13 @@ const HotelSelection = () => {
                 value={inputCountDay}
                 onChange={setInputCountDay}
                 title={"Количество дней"}
+                type="number"
               />
             </div>
             <Button onClick={hanblerSortClick}>Найти</Button>
           </div>
         </WhiteBox>
-        <WhiteBox>
-          <div className={s.barContainer}>
-            <h2 className={s.titleForeve}>Избранное</h2>
-            <div className={s.selected}>
-              <select></select>
-              <select></select>
-            </div>
-            <ul>
-              <HotelInfo />
-            </ul>
-          </div>
-        </WhiteBox>
+        <FavoritesBox />
       </div>
       <div className={s.content} ref={refContainer}>
         <WhiteBox style={{ height: "100%" }}>
@@ -90,10 +99,10 @@ const HotelSelection = () => {
               <div className={s.geo}>
                 <p>Отели</p>
                 <ArrowToLeft />
-                <p>Москва</p>
+                <p>{city}</p>
               </div>
               <div className={s.date}>
-                <p>07 июля 2020</p>
+                <p>{currentStrDate}</p>
               </div>
             </div>
             <div className={s.rooms}>
@@ -101,23 +110,25 @@ const HotelSelection = () => {
             </div>
             <div className={s.hotels}>
               <p className={s.hotelsCountForev}>
-                Добавлено в Избранное: 3 отеля
+                Добавлено в Избранное: {favoritesData.length} отелий
               </p>
-              <ul
-                className={s.hotels_list}
-                style={{ height: `${heightList}px` }}
-              >
-                <ItemHotel />
-                <ItemHotel />
-                <ItemHotel />
-                <ItemHotel />
-                <ItemHotel />
-                <ItemHotel />
-                <ItemHotel />
-                <ItemHotel />
-                <ItemHotel />
-                <ItemHotel />
-              </ul>
+              {isError && <h2>{error}</h2>}
+              {!isError && (
+                <ul
+                  className={s.hotels_list}
+                  style={{ height: `${heightList}px` }}
+                >
+                  {data.map((hotel) => (
+                    <ItemHotel
+                      key={hotel.hotelId}
+                      hotelName={hotel.hotelName}
+                      stars={hotel.stars}
+                      price={hotel.priceAvg}
+                      hotelId={hotel.hotelId}
+                    />
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         </WhiteBox>
