@@ -3,38 +3,45 @@ import { useEffect } from "react";
 import { useRef } from "react";
 import { ArrowToLeft } from "../../assets/SvgRet";
 import HotelInfo from "../HotelInfo/HotelInfo";
-import HouseCircle from "../HouseCircle/HouseCircle";
 import ItemHotel from "../ItemHotel/ItemHotel";
 import SliderRooms from "../SliderRooms/SliderRooms";
-
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
 import WhiteBox from "../WhiteBox/WhiteBox";
 
 import s from "./HotelSelection.module.css";
+import { SET_HOTELS } from "../../redux/sagas/types";
 
 const HotelSelection = () => {
+  const date = new Date();
+  const dateYear = date.getFullYear();
+  const dateMonth = (date.getMonth() + 1).toString().padStart(2, "0");
+  const dateDay = date.getDate().toString().padStart(2, "0");
+  const fullDate = `${dateYear}-${dateMonth}-${dateDay}`;
+
   const [inputLocation, setInputLocation] = useState("Москва");
-  const [inputDate, setInputDate] = useState("");
+  const [inputDate, setInputDate] = useState(fullDate);
   const [inputCountDay, setInputCountDay] = useState("1");
   const [heightList, setHeightList] = useState("0");
+
   const refContainer = useRef();
+
+  const dispacth = useDispatch();
 
   const hanblerSortClick = () => {
     console.log(inputLocation, inputDate, inputCountDay);
   };
 
   useEffect(() => {
-    const date = new Date();
-    const dateYear = date.getFullYear();
-    const dateMonth = (date.getMonth() + 1).toString().padStart(2, "0");
-    const dateDay = date.getDate().toString().padStart(2, "0");
-    const fullDate = `${dateYear}-${dateMonth}-${dateDay}`;
-    setInputDate(fullDate);
-
     setHeightList(
       refContainer.current.offsetHeight - 32 * 2 - 38 - 28 * 2 - 149 - (19 + 20)
     );
+  }, []);
+
+  useEffect(() => {
+    console.log("Start: ", inputLocation, inputDate, inputCountDay);
+    dispacth({ type: SET_HOTELS });
   }, []);
 
   return (
