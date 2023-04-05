@@ -10,6 +10,7 @@ export const user = createSlice({
   },
   reducers: {
     getUsers: (state, action) => {
+      console.log(action);
       state = action.payload;
       return state;
     },

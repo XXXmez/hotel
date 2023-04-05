@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { getUsers } from "../../redux/slice/userSlice";
 
 import Button from "../UI/Button/Button";
 import ErrorMessage from "../UI/ErrorMessage/ErrorMessage";
@@ -23,11 +25,21 @@ const LoginForm = () => {
     return passwordRegex.test(inputPassword);
   };
 
-  const handlerButtonClick = () => {
+  const dispatch = useDispatch();
+
+  const handlerSubmit = () => {
     setErrorCheckingLogin(true);
     setErrorCheckingPassword(true);
     if (emailChecking() && passwordChecking()) {
       console.log("Запрос");
+      dispatch(
+        getUsers({
+          isAuth: true,
+          login: inputLogin,
+        })
+      );
+      localStorage.setItem("isAuth", true);
+      localStorage.setItem("login", inputLogin);
 
       setErrorCheckingLogin(false);
       setErrorCheckingPassword(false);
@@ -67,7 +79,7 @@ const LoginForm = () => {
             )}
           </div>
         </div>
-        <Button onClick={handlerButtonClick}>Войти</Button>
+        <Button onClick={handlerSubmit}>Войти</Button>
       </div>
     </div>
   );
