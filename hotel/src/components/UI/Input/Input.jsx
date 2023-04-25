@@ -7,7 +7,10 @@ const Input = ({ title, value = "", onChange, type = "" }) => {
   const [inputValue, setInputValue] = useState(value);
 
   const handleInputChange = (targetValue) => {
-    const newInputValue = targetValue;
+    let newInputValue = targetValue;
+    if (typeof Number(newInputValue) === "number") {
+      if (newInputValue < 1) newInputValue = 1;
+    }
     setInputValue(newInputValue);
 
     if (onChange) {

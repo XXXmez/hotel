@@ -95,3 +95,72 @@ export const Heart = ({ like }) => {
     </svg>
   );
 };
+
+export const Exit = () => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9"
+        stroke="#41522E"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M16 17L21 12L16 7"
+        stroke="#41522E"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M21 12H9"
+        stroke="#41522E"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const ArrowDown = ({ on }) => {
+  return (
+    <svg
+      width="9"
+      height="7"
+      viewBox="0 0 9 7"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M8.5 1.83245L7.43934 0.77179L4.25736 3.95377L1.07538 0.77179L0.0147181 1.83245L4.25736 6.07509L8.5 1.83245Z"
+        fill="#41522E"
+        fillOpacity={on ? "1" : "0.3"}
+      />
+    </svg>
+  );
+};
+export const ArrowUp = ({ on }) => {
+  return (
+    <svg
+      width="9"
+      height="6"
+      viewBox="0 0 9 6"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M8.5 4.24264L7.43934 5.3033L4.25736 2.12132L1.07538 5.3033L0.0147181 4.24264L4.25736 0L8.5 4.24264Z"
+        fill="#41522E"
+        fillOpacity={on ? "1" : "0.3"}
+      />
+    </svg>
+  );
+};

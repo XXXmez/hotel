@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { formateDate } from "../../functions";
+import { formateDate, getWord } from "../../functions";
 import { addFavorite } from "../../redux/slice/favoritesSlice";
 import LikeButton from "../LikeButton/LikeButton";
 import StarRating from "../StarRating/StarRating";
@@ -33,7 +33,9 @@ const HotelInfo = ({ hotelName, stars, price, hotelId, data, day, like }) => {
         <div className={s.rentalTime}>
           <p>{currentStrDate}</p>
           <span className={s.trait}></span>
-          <p>{countDay} день</p>
+          <p>
+            {countDay} {getWord(countDay, ["день", "дня", "дней"])}
+          </p>
         </div>
         <StarRating on={Number(stars)} />
       </div>

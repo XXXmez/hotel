@@ -13,3 +13,42 @@
   padding-bottom: 16px;
   margin-bottom: 16px;
 }
+.list::-webkit-scrollbar {
+  width: 3px;
+}
+.list::-webkit-scrollbar-track {
+  border-radius: 2px;
+  background-color: #e7e7e7;
+}
+.list::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: #41522e;
+}
+
+.list {
+  overflow: hidden;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.sorted {
+  display: flex;
+  gap: 8px;
+}
+.sortedBtn {
+  cursor: pointer;
+  display: flex;
+  padding: 4px 8px;
+  align-items: center;
+  gap: 9px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  background: transparent;
+  border: 1px solid #41522e;
+  border-radius: 4px;
+}
+.arrows {
+  display: flex;
+  flex-direction: column;
+}

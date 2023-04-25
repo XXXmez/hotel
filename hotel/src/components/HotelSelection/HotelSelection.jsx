@@ -16,7 +16,7 @@ import {
   setResidenceTime,
   setSelectDate,
 } from "../../redux/slice/settingSlice";
-import { addDaysToDate, formateDate } from "../../functions";
+import { addDaysToDate, formateDate, getWord } from "../../functions";
 import FavoritesBox from "../FavoritesBox/FavoritesBox";
 
 const HotelSelection = () => {
@@ -61,6 +61,10 @@ const HotelSelection = () => {
     hanblerSortClick();
   }, []);
 
+  const handlerInputDay = (num) => {
+    setInputCountDay(num);
+  };
+
   const currentStrDate = formateDate(inputDate);
 
   return (
@@ -82,7 +86,7 @@ const HotelSelection = () => {
               />
               <Input
                 value={inputCountDay}
-                onChange={setInputCountDay}
+                onChange={handlerInputDay}
                 title={"Количество дней"}
                 type="number"
               />
@@ -110,7 +114,8 @@ const HotelSelection = () => {
             </div>
             <div className={s.hotels}>
               <p className={s.hotelsCountForev}>
-                Добавлено в Избранное: {favoritesData.length} отелий
+                Добавлено в Избранное: {favoritesData.length}{" "}
+                {getWord(favoritesData.length, ["отель", "отеля", "отелей"])}
               </p>
               {isError && <h2>{error}</h2>}
               {!isError && (

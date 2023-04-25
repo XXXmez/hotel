@@ -31,3 +31,21 @@ export function addDaysToDate(dateString, days) {
   const day = date.getDate().toString().padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
+
+export function getWord(num, words) {
+  let i = 0;
+  const perTwo = num % 100;
+  if (perTwo >= 11 && perTwo <= 19) {
+    i = 2;
+  } else {
+    const per = num % 10;
+    if (per === 1) {
+      i = 0;
+    } else if (per >= 2 && per <= 4) {
+      i = 1;
+    } else {
+      i = 2;
+    }
+  }
+  return words[i];
+}
