@@ -1,0 +1,15 @@
+.barContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.sorts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.boxInput {
+  position: relative;
+}
