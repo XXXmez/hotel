@@ -18,6 +18,7 @@ import {
 } from "../../redux/slice/settingSlice";
 import { addDaysToDate, formateDate, getWord } from "../../functions";
 import FavoritesBox from "../FavoritesBox/FavoritesBox";
+import ErrorMessage from "../UI/ErrorMessage/ErrorMessage";
 
 const HotelSelection = () => {
   const date = new Date();
@@ -29,6 +30,7 @@ const HotelSelection = () => {
   const [inputLocation, setInputLocation] = useState("Москва");
   const [inputDate, setInputDate] = useState(fullDate);
   const [inputCountDay, setInputCountDay] = useState("1");
+  const [errorInput, setErrorInput] = useState(false);
 
   const [heightList, setHeightList] = useState("0");
 
@@ -41,6 +43,10 @@ const HotelSelection = () => {
   const { city } = useSelector((state) => state.settings);
 
   const hanblerSortClick = () => {
+    if (!inputLocation) {
+      setErrorInput(true);
+      return;
+    }
     const endDate = addDaysToDate(inputDate, inputCountDay);
     dispacth({
       type: SET_HOTELS,
@@ -49,6 +55,7 @@ const HotelSelection = () => {
     dispacth(setSelectDate(inputDate));
     dispacth(setResidenceTime(Number(inputCountDay)));
     dispacth(setCity(inputLocation));
+    setErrorInput(false);
   };
 
   useEffect(() => {
@@ -73,11 +80,19 @@ const HotelSelection = () => {
         <WhiteBox>
           <div className={s.barContainer}>
             <div className={s.sorts}>
-              <Input
-                value={inputLocation}
-                onChange={setInputLocation}
-                title={"Локация"}
-              />
+              <div className={s.boxInput}>
+                <Input
+                  value={inputLocation}
+                  onChange={setInputLocation}
+                  title={"Локация"}
+                />
+                {errorInput && inputLocation.length < 1 && (
+                  <ErrorMessage
+                    style={{ bottom: "-15px" }}
+                    message={"Пожалуйста заполните поле"}
+                  />
+                )}
+              </div>
               <Input
                 value={inputDate}
                 onChange={setInputDate}

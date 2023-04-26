@@ -8,7 +8,7 @@ const Input = ({ title, value = "", onChange, type = "" }) => {
 
   const handleInputChange = (targetValue) => {
     let newInputValue = targetValue;
-    if (typeof Number(newInputValue) === "number") {
+    if (typeof Number(newInputValue) === "number" && type === "number") {
       if (newInputValue < 1) newInputValue = 1;
     }
     setInputValue(newInputValue);

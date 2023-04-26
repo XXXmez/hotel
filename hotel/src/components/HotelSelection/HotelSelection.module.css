@@ -79,3 +79,7 @@
   border-radius: 2px;
   background-color: #41522e;
 }
+
+.boxInput {
+  position: relative;
+}
