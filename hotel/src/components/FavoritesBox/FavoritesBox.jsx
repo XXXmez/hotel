@@ -1,43 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ArrowDown, ArrowUp } from "../../assets/SvgRet";
+import {
+  setSortPriceDown,
+  setSortPriceUP,
+  setSortRaitingDown,
+  setSortRaitingUP,
+} from "../../redux/slice/favoritesSlice";
 import HotelInfo from "../HotelInfo/HotelInfo";
 import WhiteBox from "../WhiteBox/WhiteBox";
 
 import s from "./FavoritesBox.module.css";
 
 const FavoritesBox = () => {
-  const favoritesData = useSelector((state) => state.favorites);
-
-  const [favorites, setFavorites] = useState([]);
-
-  const [sortRaiting, setSortRaiting] = useState({ up: true, down: false });
-  const [sortPrice, setSortPrice] = useState({ up: false, down: false });
-
-  useEffect(() => {
-    let newFav = [...favoritesData];
-    if (sortRaiting.up || sortRaiting.down) {
-      if (sortRaiting.up) {
-        newFav.sort((a, b) => a.stars - b.stars);
-      } else {
-        newFav.sort((a, b) => b.stars - a.stars);
-      }
-    }
-    if (sortPrice.up || sortPrice.down) {
-      if (sortPrice.up) {
-        newFav.sort((a, b) => a.price - b.price);
-      } else {
-        newFav.sort((a, b) => b.price - a.price);
-      }
-    }
-    setFavorites(newFav);
-  }, [
-    sortRaiting.up,
-    sortRaiting.down,
-    sortPrice.up,
-    sortPrice.down,
-    favoritesData,
-  ]);
+  const dispatch = useDispatch();
+  const favorites = useSelector((state) => state.favorites.data);
+  const sortRaitingUP = useSelector((state) => state.favorites.sortRaitingUP);
+  const sortRaitingDown = useSelector(
+    (state) => state.favorites.sortRaitingDown
+  );
+  const sortPriceUP = useSelector((state) => state.favorites.sortPriceUP);
+  const sortPriceDown = useSelector((state) => state.favorites.sortPriceDown);
+  console.log(sortRaitingUP, sortRaitingDown, sortPriceUP, sortPriceDown);
 
   let heightList = 0;
 
@@ -52,24 +36,20 @@ const FavoritesBox = () => {
     heightList = list;
   }
 
-  const handlerClickSortRaiting = () => {
-    setSortPrice({ up: false, down: false });
-    if (sortRaiting.up) {
-      setSortRaiting({ up: false, down: true });
-    } else {
-      setSortRaiting({ up: true, down: false });
-    }
+  const handlerClickSortRaitingUP = () => {
+    dispatch(setSortRaitingUP());
   };
-  const handlerClickSortPrice = () => {
-    setSortRaiting({ up: false, down: false });
-    if (sortPrice.up) {
-      setSortPrice({ up: false, down: true });
-    } else {
-      setSortPrice({ up: true, down: false });
-    }
+  const handlerClickSortRaitingDown = () => {
+    dispatch(setSortRaitingDown());
+  };
+  const handlerClickSortPriceUP = () => {
+    dispatch(setSortPriceUP());
+  };
+  const handlerClickSortPriceDown = () => {
+    dispatch(setSortPriceDown());
   };
 
-  // console.log(favoritesData);
+  // console.log(favorites);
 
   return (
     <WhiteBox ref={ref}>
@@ -78,32 +58,38 @@ const FavoritesBox = () => {
         <div className={s.sorted}>
           <button
             className={s.sortedBtn}
-            onClick={handlerClickSortRaiting}
+            onClick={
+              sortRaitingUP
+                ? handlerClickSortRaitingDown
+                : handlerClickSortRaitingUP
+            }
             style={
-              sortRaiting.up || sortRaiting.down
+              sortRaitingUP || sortRaitingDown
                 ? { border: "1px solid #41522e" }
                 : { border: "1px solid #E5E5E5" }
             }
           >
             Рейтинг
             <div className={s.arrows}>
-              <ArrowUp on={sortRaiting.up} />
-              <ArrowDown on={sortRaiting.down} />
+              <ArrowUp on={sortRaitingUP} />
+              <ArrowDown on={sortRaitingDown} />
             </div>
           </button>
           <button
             className={s.sortedBtn}
-            onClick={handlerClickSortPrice}
+            onClick={
+              sortPriceUP ? handlerClickSortPriceDown : handlerClickSortPriceUP
+            }
             style={
-              sortPrice.up || sortPrice.down
+              sortPriceUP || sortPriceDown
                 ? { border: "1px solid #41522e" }
                 : { border: "1px solid #E5E5E5" }
             }
           >
             Цена
             <div className={s.arrows}>
-              <ArrowUp on={sortPrice.up} />
-              <ArrowDown on={sortPrice.down} />
+              <ArrowUp on={sortPriceUP} />
+              <ArrowDown on={sortPriceDown} />
             </div>
           </button>
         </div>

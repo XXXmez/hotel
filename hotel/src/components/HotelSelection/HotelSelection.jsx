@@ -4,59 +4,27 @@ import { useRef } from "react";
 import { ArrowToLeft } from "../../assets/SvgRet";
 import ItemHotel from "../ItemHotel/ItemHotel";
 import SliderRooms from "../SliderRooms/SliderRooms";
-import { useDispatch, useSelector } from "react-redux";
-import Button from "../UI/Button/Button";
-import Input from "../UI/Input/Input";
+import { useSelector } from "react-redux";
+
 import WhiteBox from "../WhiteBox/WhiteBox";
 
 import s from "./HotelSelection.module.css";
-import { SET_HOTELS } from "../../redux/sagas/types";
-import {
-  setCity,
-  setResidenceTime,
-  setSelectDate,
-} from "../../redux/slice/settingSlice";
-import { addDaysToDate, formateDate, getWord } from "../../functions";
+
+import { formateDate, getWord } from "../../functions";
 import FavoritesBox from "../FavoritesBox/FavoritesBox";
-import ErrorMessage from "../UI/ErrorMessage/ErrorMessage";
+
+import SearchBox from "../SearchBox/SearchBox";
 
 const HotelSelection = () => {
-  const date = new Date();
-  const dateYear = date.getFullYear();
-  const dateMonth = (date.getMonth() + 1).toString().padStart(2, "0");
-  const dateDay = date.getDate().toString().padStart(2, "0");
-  const fullDate = `${dateYear}-${dateMonth}-${dateDay}`;
-
-  const [inputLocation, setInputLocation] = useState("Москва");
-  const [inputDate, setInputDate] = useState(fullDate);
-  const [inputCountDay, setInputCountDay] = useState("1");
-  const [errorInput, setErrorInput] = useState(false);
-
   const [heightList, setHeightList] = useState("0");
 
   const refContainer = useRef();
 
-  const dispacth = useDispatch();
-
   const { data, isError, error } = useSelector((state) => state.hotels);
-  const favoritesData = useSelector((state) => state.favorites);
-  const { city } = useSelector((state) => state.settings);
+  const selectDate = useSelector((state) => state.settings.selectDate);
 
-  const hanblerSortClick = () => {
-    if (!inputLocation) {
-      setErrorInput(true);
-      return;
-    }
-    const endDate = addDaysToDate(inputDate, inputCountDay);
-    dispacth({
-      type: SET_HOTELS,
-      search: { inputLocation, inputDate, endDate },
-    });
-    dispacth(setSelectDate(inputDate));
-    dispacth(setResidenceTime(Number(inputCountDay)));
-    dispacth(setCity(inputLocation));
-    setErrorInput(false);
-  };
+  const favorites = useSelector((state) => state.favorites.data);
+  const { city } = useSelector((state) => state.settings);
 
   useEffect(() => {
     setHeightList(
@@ -64,51 +32,12 @@ const HotelSelection = () => {
     );
   }, []);
 
-  useEffect(() => {
-    hanblerSortClick();
-  }, []);
-
-  const handlerInputDay = (num) => {
-    setInputCountDay(num);
-  };
-
-  const currentStrDate = formateDate(inputDate);
+  const currentStrDate = formateDate(selectDate);
 
   return (
     <div className={s.box}>
       <div className={s.bar}>
-        <WhiteBox>
-          <div className={s.barContainer}>
-            <div className={s.sorts}>
-              <div className={s.boxInput}>
-                <Input
-                  value={inputLocation}
-                  onChange={setInputLocation}
-                  title={"Локация"}
-                />
-                {errorInput && inputLocation.length < 1 && (
-                  <ErrorMessage
-                    style={{ bottom: "-15px" }}
-                    message={"Пожалуйста заполните поле"}
-                  />
-                )}
-              </div>
-              <Input
-                value={inputDate}
-                onChange={setInputDate}
-                title={"Дата заселения"}
-                type="date"
-              />
-              <Input
-                value={inputCountDay}
-                onChange={handlerInputDay}
-                title={"Количество дней"}
-                type="number"
-              />
-            </div>
-            <Button onClick={hanblerSortClick}>Найти</Button>
-          </div>
-        </WhiteBox>
+        <SearchBox />
         <FavoritesBox />
       </div>
       <div className={s.content} ref={refContainer}>
@@ -129,8 +58,8 @@ const HotelSelection = () => {
             </div>
             <div className={s.hotels}>
               <p className={s.hotelsCountForev}>
-                Добавлено в Избранное: {favoritesData.length}{" "}
-                {getWord(favoritesData.length, ["отель", "отеля", "отелей"])}
+                Добавлено в Избранное: {favorites.length}{" "}
+                {getWord(favorites.length, ["отель", "отеля", "отелей"])}
               </p>
               {isError && <h2>{error}</h2>}
               {!isError && (
