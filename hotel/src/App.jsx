@@ -1,24 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 
 import "./App.css";
 
 import LoginPage from "./pages/LoginPage/LoginPage";
 import MainPage from "./pages/MainPage/MainPage";
-import { getUsers } from "./redux/slice/userSlice";
+import { setUser } from "./redux/slice/userSlice";
 
 function App() {
   const dispacth = useDispatch();
-  const { isAuth } = useSelector((state) => state.user);
 
   useEffect(() => {
     const auth = localStorage.getItem("isAuth");
     const login = localStorage.getItem("login");
     if (auth && login) {
       dispacth(
-        getUsers({
+        setUser({
           isAuth: auth,
           login: login,
         })
@@ -29,7 +28,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={isAuth ? <MainPage /> : <LoginPage />} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </div>

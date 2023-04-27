@@ -9,13 +9,18 @@ export const user = createSlice({
     error: "",
   },
   reducers: {
-    getUsers: (state, action) => {
-      // console.log(action);
+    setUser: (state, action) => {
       state = action.payload;
       return state;
+    },
+    exitUser: (state) => {
+      state.login = "";
+      state.isAuth = false;
+      localStorage.setItem("isAuth", false);
+      localStorage.setItem("login", "");
     },
   },
 });
 
-export const { getUsers } = user.actions;
+export const { setUser, exitUser } = user.actions;
 export default user.reducer;

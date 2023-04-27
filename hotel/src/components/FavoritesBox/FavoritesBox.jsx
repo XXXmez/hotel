@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowDown, ArrowUp } from "../../assets/SvgRet";
 import {
@@ -55,44 +55,48 @@ const FavoritesBox = () => {
     <WhiteBox ref={ref}>
       <div className={s.barContainer}>
         <h2 className={s.titleForeve}>Избранное</h2>
-        <div className={s.sorted}>
-          <button
-            className={s.sortedBtn}
-            onClick={
-              sortRaitingUP
-                ? handlerClickSortRaitingDown
-                : handlerClickSortRaitingUP
-            }
-            style={
-              sortRaitingUP || sortRaitingDown
-                ? { border: "1px solid #41522e" }
-                : { border: "1px solid #E5E5E5" }
-            }
-          >
-            Рейтинг
-            <div className={s.arrows}>
-              <ArrowUp on={sortRaitingUP} />
-              <ArrowDown on={sortRaitingDown} />
-            </div>
-          </button>
-          <button
-            className={s.sortedBtn}
-            onClick={
-              sortPriceUP ? handlerClickSortPriceDown : handlerClickSortPriceUP
-            }
-            style={
-              sortPriceUP || sortPriceDown
-                ? { border: "1px solid #41522e" }
-                : { border: "1px solid #E5E5E5" }
-            }
-          >
-            Цена
-            <div className={s.arrows}>
-              <ArrowUp on={sortPriceUP} />
-              <ArrowDown on={sortPriceDown} />
-            </div>
-          </button>
-        </div>
+        {favorites.length > 0 && (
+          <div className={s.sorted}>
+            <button
+              className={s.sortedBtn}
+              onClick={
+                sortRaitingUP
+                  ? handlerClickSortRaitingDown
+                  : handlerClickSortRaitingUP
+              }
+              style={
+                sortRaitingUP || sortRaitingDown
+                  ? { border: "1px solid #41522e" }
+                  : { border: "1px solid #E5E5E5" }
+              }
+            >
+              Рейтинг
+              <div className={s.arrows}>
+                <ArrowUp on={sortRaitingUP} />
+                <ArrowDown on={sortRaitingDown} />
+              </div>
+            </button>
+            <button
+              className={s.sortedBtn}
+              onClick={
+                sortPriceUP
+                  ? handlerClickSortPriceDown
+                  : handlerClickSortPriceUP
+              }
+              style={
+                sortPriceUP || sortPriceDown
+                  ? { border: "1px solid #41522e" }
+                  : { border: "1px solid #E5E5E5" }
+              }
+            >
+              Цена
+              <div className={s.arrows}>
+                <ArrowUp on={sortPriceUP} />
+                <ArrowDown on={sortPriceDown} />
+              </div>
+            </button>
+          </div>
+        )}
         <ul className={s.list} style={heightList ? { height: heightList } : {}}>
           {favorites.map((el, ind) => (
             <li className={s.wrapper} key={ind}>

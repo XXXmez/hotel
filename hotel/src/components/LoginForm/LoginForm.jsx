@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { getUsers } from "../../redux/slice/userSlice";
+import { setUser } from "../../redux/slice/userSlice";
 
 import Button from "../UI/Button/Button";
 import ErrorMessage from "../UI/ErrorMessage/ErrorMessage";
@@ -27,13 +27,15 @@ const LoginForm = () => {
 
   const dispatch = useDispatch();
 
-  const handlerSubmit = () => {
+  const handlerSubmit = (event) => {
+    event.preventDefault();
+
     setErrorCheckingLogin(true);
     setErrorCheckingPassword(true);
     if (emailChecking() && passwordChecking()) {
-      console.log("Запрос");
+      console.log("авторизация");
       dispatch(
-        getUsers({
+        setUser({
           isAuth: true,
           login: inputLogin,
         })
@@ -50,36 +52,40 @@ const LoginForm = () => {
     <div className={s.box}>
       <div className={s.content}>
         <h2 className={s.title}>Simple Hotel Check</h2>
-        <div className={s.inputs}>
-          <div className={s.wrapperInput}>
-            <Input
-              title={"Логин"}
-              value={inputLogin}
-              onChange={setInputLogin}
-            />
-            {errorCheckingLogin && !inputLogin && (
-              <ErrorMessage message="Пожалуйста введите почту" />
-            )}
-            {errorCheckingLogin && inputLogin && !emailChecking() && (
-              <ErrorMessage message="Неверный формат почты" />
-            )}
+        <form onSubmit={handlerSubmit}>
+          <div className={s.inputs}>
+            <div className={s.wrapperInput}>
+              <Input
+                title={"Логин"}
+                value={inputLogin}
+                onChange={setInputLogin}
+              />
+              {errorCheckingLogin && !inputLogin && (
+                <ErrorMessage message="Пожалуйста введите почту" />
+              )}
+              {errorCheckingLogin && inputLogin && !emailChecking() && (
+                <ErrorMessage message="Неверный формат почты" />
+              )}
+            </div>
+            <div className={s.wrapperInput}>
+              <Input
+                title={"Пароль"}
+                value={inputPassword}
+                onChange={setInputPassword}
+                type={"password"}
+              />
+              {errorCheckingPassword && !inputPassword && (
+                <ErrorMessage message="Пожалуйста введите пароль" />
+              )}
+              {errorCheckingPassword &&
+                inputPassword &&
+                !passwordChecking() && (
+                  <ErrorMessage message="Некоректный пароль" />
+                )}
+            </div>
           </div>
-          <div className={s.wrapperInput}>
-            <Input
-              title={"Пароль"}
-              value={inputPassword}
-              onChange={setInputPassword}
-              type={"password"}
-            />
-            {errorCheckingPassword && !inputPassword && (
-              <ErrorMessage message="Пожалуйста введите пароль" />
-            )}
-            {errorCheckingPassword && inputPassword && !passwordChecking() && (
-              <ErrorMessage message="Некоректный пароль" />
-            )}
-          </div>
-        </div>
-        <Button onClick={handlerSubmit}>Войти</Button>
+          <Button type="submit">Войти</Button>
+        </form>
       </div>
     </div>
   );

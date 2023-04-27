@@ -2,9 +2,9 @@ import React from "react";
 
 import s from "./Button.module.css";
 
-const Button = ({ children, ...a }) => {
+const Button = ({ children, ...other }) => {
   return (
-    <button {...a} className={s.btn}>
+    <button {...other} className={s.btn}>
       {children}
     </button>
   );
