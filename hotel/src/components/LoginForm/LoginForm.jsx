@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/slice/userSlice";
+import { Formik } from "formik";
 
 import Button from "../UI/Button/Button";
 import ErrorMessage from "../UI/ErrorMessage/ErrorMessage";
@@ -52,7 +53,7 @@ const LoginForm = () => {
     <div className={s.box}>
       <div className={s.content}>
         <h2 className={s.title}>Simple Hotel Check</h2>
-        <form onSubmit={handlerSubmit}>
+        {/* <form onSubmit={handlerSubmit}>
           <div className={s.inputs}>
             <div className={s.wrapperInput}>
               <Input
@@ -85,7 +86,32 @@ const LoginForm = () => {
             </div>
           </div>
           <Button type="submit">Войти</Button>
-        </form>
+        </form> */}
+        <Formik initialValues={{ email: "", password: "" }}>
+          {({ values, errors, isSubmitting }) => (
+            <form>
+              <input
+                type="email"
+                name="email"
+                // onChange={handleChange}
+                // onBlur={handleBlur}
+                value={values.email}
+              />
+              {errors.email && touched.email && errors.email}
+              <input
+                type="password"
+                name="password"
+                // onChange={handleChange}
+                // onBlur={handleBlur}
+                value={values.password}
+              />
+              {errors.password && touched.password && errors.password}
+              <button type="submit" disabled={isSubmitting}>
+                Submit
+              </button>
+            </form>
+          )}
+        </Formik>
       </div>
     </div>
   );
