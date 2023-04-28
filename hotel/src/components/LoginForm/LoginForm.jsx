@@ -2,10 +2,10 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/slice/userSlice";
-import { Formik } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import Button from "../UI/Button/Button";
-import ErrorMessage from "../UI/ErrorMessage/ErrorMessage";
+// import ErrorMessage from "../UI/ErrorMessage/ErrorMessage";
 import Input from "../UI/Input/Input";
 
 import s from "./LoginForm.module.css";
@@ -22,8 +22,8 @@ const LoginForm = () => {
   const emailChecking = () => {
     return emailRegex.test(inputLogin);
   };
-  const passwordChecking = () => {
-    return passwordRegex.test(inputPassword);
+  const passwordChecking = (password) => {
+    return passwordRegex.test(password);
   };
 
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const LoginForm = () => {
 
     setErrorCheckingLogin(true);
     setErrorCheckingPassword(true);
-    if (emailChecking() && passwordChecking()) {
+    if (emailChecking() && passwordChecking(inputPassword)) {
       console.log("авторизация");
       dispatch(
         setUser({
@@ -80,36 +80,85 @@ const LoginForm = () => {
               )}
               {errorCheckingPassword &&
                 inputPassword &&
-                !passwordChecking() && (
+                !passwordChecking(inputPassword) && (
                   <ErrorMessage message="Некоректный пароль" />
                 )}
             </div>
           </div>
           <Button type="submit">Войти</Button>
         </form> */}
-        <Formik initialValues={{ email: "", password: "" }}>
-          {({ values, errors, isSubmitting }) => (
-            <form>
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          validate={(values) => {
+            const errors = {};
+            if (!values.email) {
+              errors.email = "Required-Пожалуйста введите почту";
+            } else if (
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+            ) {
+              errors.email = "Invalid email address-Неверный формат почты";
+            }
+            console.log("пароль тест", passwordRegex.test(values.password));
+            if (!values.password) {
+              errors.password = "Required-Введите пароль";
+            } else if (!passwordRegex.test(values.password)) {
+              let message = "Неверный формат пароля";
+              if (values.password.length < 8) {
+                message += "Пароль должен быть не меньше 8 символов";
+              }
+              errors.password = message;
+            }
+
+            return errors;
+          }}
+          onSubmit={(values, { setSubmitting }) => {
+            setTimeout(() => {
+              console.log(JSON.stringify(values, null, 2));
+              setSubmitting(false);
+            }, 400);
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <>
+              {/* <form onSubmit={handleSubmit}>
               <input
                 type="email"
                 name="email"
-                // onChange={handleChange}
-                // onBlur={handleBlur}
+                onChange={handleChange}
+                onBlur={handleBlur}
                 value={values.email}
               />
               {errors.email && touched.email && errors.email}
               <input
                 type="password"
                 name="password"
-                // onChange={handleChange}
-                // onBlur={handleBlur}
+                onChange={handleChange}
+                onBlur={handleBlur}
                 value={values.password}
               />
               {errors.password && touched.password && errors.password}
               <button type="submit" disabled={isSubmitting}>
                 Submit
               </button>
-            </form>
+            </form> */}
+              <Form>
+                <Field type="email" name="email" />
+                <ErrorMessage name="email" component="div" />
+                <Field type="password" name="password" />
+                <ErrorMessage name="password" component="div" />
+                <button type="submit" disabled={isSubmitting}>
+                  Submit
+                </button>
+              </Form>
+            </>
           )}
         </Formik>
       </div>
