@@ -9,6 +9,7 @@ import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
 
 import s from "./LoginForm.module.css";
+import btnStyle from "../UI/Button/Button.module.css";
 
 const LoginForm = () => {
   const [inputLogin, setInputLogin] = useState("");
@@ -98,7 +99,7 @@ const LoginForm = () => {
             ) {
               errors.email = "Invalid email address-Неверный формат почты";
             }
-            console.log("пароль тест", passwordRegex.test(values.password));
+
             if (!values.password) {
               errors.password = "Required-Введите пароль";
             } else if (!passwordRegex.test(values.password)) {
@@ -128,34 +129,23 @@ const LoginForm = () => {
             isSubmitting,
           }) => (
             <>
-              {/* <form onSubmit={handleSubmit}>
-              <input
-                type="email"
-                name="email"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.email}
-              />
-              {errors.email && touched.email && errors.email}
-              <input
-                type="password"
-                name="password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password}
-              />
-              {errors.password && touched.password && errors.password}
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-              </button>
-            </form> */}
               <Form>
-                <Field type="email" name="email" />
-                <ErrorMessage name="email" component="div" />
-                <Field type="password" name="password" />
-                <ErrorMessage name="password" component="div" />
-                <button type="submit" disabled={isSubmitting}>
-                  Submit
+                <div className={s.inputs}>
+                  <div className={s.wrapperInput}>
+                    <Field type="email" name="email" />
+                    {/* <ErrorMessage name="email" component="div" /> */}
+                  </div>
+                  <div className={s.wrapperInput}>
+                    <Field type="password" name="password" />
+                    {/* <ErrorMessage name="password" component="div" /> */}
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={btnStyle.btn}
+                >
+                  Войти
                 </button>
               </Form>
             </>
