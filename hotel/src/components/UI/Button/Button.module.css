@@ -18,3 +18,7 @@
 .btn:active {
     opacity: 1.5;
 }
+
+.btn:disabled {
+    opacity: .7;
+}
