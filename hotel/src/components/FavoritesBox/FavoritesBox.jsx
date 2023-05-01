@@ -21,7 +21,7 @@ const FavoritesBox = () => {
   );
   const sortPriceUP = useSelector((state) => state.favorites.sortPriceUP);
   const sortPriceDown = useSelector((state) => state.favorites.sortPriceDown);
-  console.log(sortRaitingUP, sortRaitingDown, sortPriceUP, sortPriceDown);
+  // console.log(sortRaitingUP, sortRaitingDown, sortPriceUP, sortPriceDown);
 
   let heightList = 0;
 

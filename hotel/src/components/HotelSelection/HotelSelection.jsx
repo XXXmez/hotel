@@ -20,7 +20,9 @@ const HotelSelection = () => {
 
   const refContainer = useRef();
 
-  const { data, isError, error } = useSelector((state) => state.hotels);
+  const { data, isError, error, loading } = useSelector(
+    (state) => state.hotels
+  );
   const selectDate = useSelector((state) => state.settings.selectDate);
 
   const favorites = useSelector((state) => state.favorites.data);
@@ -62,7 +64,8 @@ const HotelSelection = () => {
                 {getWord(favorites.length, ["отель", "отеля", "отелей"])}
               </p>
               {isError && <h2>{error}</h2>}
-              {!isError && (
+              {loading && <h2>{"Загрузка..."}</h2>}
+              {!isError && !loading && (
                 <ul
                   className={s.hotels_list}
                   style={{ height: `${heightList}px` }}
