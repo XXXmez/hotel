@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { Field, Form, Formik, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addDaysToDate } from "../../functions";
 import { SET_HOTELS } from "../../redux/sagas/types";
@@ -8,11 +10,18 @@ import {
   setSelectDate,
 } from "../../redux/slice/settingSlice";
 import Button from "../UI/Button/Button";
-import ErrorMessage from "../UI/ErrorMessage/ErrorMessage";
-import Input from "../UI/Input/Input";
+
 import WhiteBox from "../WhiteBox/WhiteBox";
 
 import s from "./SearchBox.module.css";
+import ui from "../UI/uiStyles.module.css";
+
+const validationSchema = Yup.object().shape({
+  location: Yup.string().required("Пожалуйста введите название города"),
+  countDays: Yup.number()
+    .positive("Минимальное количество дней - 1")
+    .required("Пожалуйста, введите количество дней"),
+});
 
 const SearchBox = () => {
   const dispacth = useDispatch();
@@ -23,65 +32,67 @@ const SearchBox = () => {
   const dateDay = date.getDate().toString().padStart(2, "0");
   const fullDate = `${dateYear}-${dateMonth}-${dateDay}`;
 
-  const [inputLocation, setInputLocation] = useState("Москва");
-  const [inputDate, setInputDate] = useState(fullDate);
-  const [inputCountDay, setInputCountDay] = useState("1");
-  const [errorInput, setErrorInput] = useState(false);
+  const handlerSort = (value) => {
+    const { countDays, date, location } = value;
 
-  const handlerInputDay = (num) => {
-    setInputCountDay(num);
-  };
-  const hanblerSortClick = () => {
-    if (!inputLocation) {
-      setErrorInput(true);
-      return;
-    }
-    const endDate = addDaysToDate(inputDate, inputCountDay);
+    const endDate = addDaysToDate(date, countDays);
+
     dispacth({
       type: SET_HOTELS,
-      search: { inputLocation, inputDate, endDate },
+      search: { location, date, endDate },
     });
-    dispacth(setSelectDate(inputDate));
-    dispacth(setResidenceTime(Number(inputCountDay)));
-    dispacth(setCity(inputLocation));
-    setErrorInput(false);
+    dispacth(setSelectDate(date));
+    dispacth(setResidenceTime(countDays));
+    dispacth(setCity(location));
+
+    return true;
   };
 
   useEffect(() => {
-    hanblerSortClick();
+    handlerSort({ location: "Москва", date: fullDate, countDays: 1 });
   }, []);
 
   return (
     <WhiteBox>
       <div className={s.barContainer}>
-        <div className={s.sorts}>
-          <div className={s.boxInput}>
-            <Input
-              value={inputLocation}
-              onChange={setInputLocation}
-              title={"Локация"}
-            />
-            {errorInput && inputLocation.length < 1 && (
-              <ErrorMessage
-                style={{ bottom: "-15px" }}
-                message={"Пожалуйста заполните поле"}
-              />
-            )}
-          </div>
-          <Input
-            value={inputDate}
-            onChange={setInputDate}
-            title={"Дата заселения"}
-            type="date"
-          />
-          <Input
-            value={inputCountDay}
-            onChange={handlerInputDay}
-            title={"Количество дней"}
-            type="number"
-          />
-        </div>
-        <Button onClick={hanblerSortClick}>Найти</Button>
+        <Formik
+          initialValues={{ location: "Москва", date: fullDate, countDays: 1 }}
+          onSubmit={(values) => handlerSort(values)}
+          validationSchema={validationSchema}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              <div className={s.sorts}>
+                <div className={ui.boxInput}>
+                  <p className={ui.title}>Локация</p>
+                  <Field type="text" name="location" className={ui.input} />
+                  <ErrorMessage
+                    name="location"
+                    component={"p"}
+                    className={ui.errorMessage}
+                  />
+                </div>
+                <div className={ui.boxInput}>
+                  <p className={ui.title}>Дата заселения</p>
+                  <Field type="date" name="date" className={ui.input} />
+                </div>
+                <div className={ui.boxInput}>
+                  <p className={ui.title}>Количество дней</p>
+                  <Field type="number" name="countDays" className={ui.input} />
+                  <ErrorMessage
+                    name="countDays"
+                    component={"p"}
+                    className={ui.errorMessage}
+                  />
+                </div>
+              </div>
+
+              <Button type="submit" disabled={isSubmitting}>
+                Найти
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </div>
     </WhiteBox>
   );
