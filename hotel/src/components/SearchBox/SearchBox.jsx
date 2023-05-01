@@ -57,7 +57,11 @@ const SearchBox = () => {
       <div className={s.barContainer}>
         <Formik
           initialValues={{ location: "Москва", date: fullDate, countDays: 1 }}
-          onSubmit={(values) => handlerSort(values)}
+          onSubmit={(values, { setSubmitting }) => {
+            setSubmitting(true);
+            handlerSort(values);
+            setSubmitting(false);
+          }}
           validationSchema={validationSchema}
         >
           {({ isSubmitting }) => (
