@@ -1,7 +1,7 @@
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addDaysToDate } from "../../functions";
 import { SET_HOTELS } from "../../redux/sagas/types";
 import {
@@ -24,6 +24,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const SearchBox = () => {
+  const loadingSearch = useSelector((state) => state.hotels.loading);
   const dispacth = useDispatch();
 
   const date = new Date();
@@ -91,7 +92,7 @@ const SearchBox = () => {
                 </div>
               </div>
 
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" disabled={loadingSearch}>
                 Найти
               </Button>
             </Form>
